@@ -12,7 +12,7 @@
 \graphicspath{ {figures/} }
 \DeclareGraphicsExtensions{.pdf,.eps,.png}
 
-\title{Title}
+\title{A warm sub-Neptune transiting a Solar twin in TESS}
 
 \author[0000-0001-9907-7742]{Megan Bedell}
 \affiliation{\flatiron}
@@ -26,14 +26,17 @@
 \author{Jennifer Burt}
 \affiliation{\MIT}
 
+\author{Jhon Yana Galarza}
+\affiliation{\USP}
+
 \author{Jorge Melendez}
 \affiliation{\USP}
 
 \author{Lorenzo Spina}
 \affiliation{Monash}
 
-\author{Jacob L. Bean}
-\affiliation{\chicago}
+%\author{Jacob L. Bean}
+%\affiliation{\chicago}
 
 
 \author{\todo{other STPS folks}}
@@ -45,7 +48,8 @@
 
 
 \begin{abstract}\noindent
-\todo{to be written}
+% Precise characterization of exoplanet host stars is critical to our understanding of their properties. 
+% However, stellar spectroscopic characterization can be plagued with 
 % context
 % aims
 % methods
@@ -53,21 +57,75 @@
 \end{abstract}
 
 \keywords{
-something
----
-science
 }
 
 \section{Introduction}
 \label{s:intro}
 
-\hoststar has been studied extensively through a dedicated \RV planet search and spectroscopic abundance survey targeting solar twin stars. ...
+%The Transiting Exoplanet Survey Satellite (\TESS) has detected over one thousand candidate exoplanets to date. (blah blah)
+
+%\hoststar has been studied extensively through a dedicated \RV planet search and spectroscopic abundance survey targeting solar twin stars. ...
+
+\section(Data)
+\label{s:data}
+
+\subsection{Photometry}
+
+(about \TESS photometry)
+
+\subsection{Spectra}
+
+(about \HARPS \RVs)
+
+(about co-added spectrum - SNR etc)
+
+\section{Analysis \& Results}
+\label{s:analysis}
+
+\subsection{Stellar Characterization}
+\label{s:analysis:star}
+
+
+(cite spectroscopic properties + abundances from previous work, plus Gaia DR2)
+(isochrones fit - we use this mass \& radius going forward)
+
+(attempts at seismology \& rotation period)
+
+\subsection{Photometric Analysis}
+\label{s:analysis:photometry}
+
+
+\subsection{\RV Analysis}
+\label{s:analysis:rvs}
+
+
+\subsection{Joint Analysis}
+\label{s:analysis:joint}
+
+
+\section{Discussion}
+\label{s:discussion}
+
+
+(Low probability of background contaminants - discuss Gaia, spectra)
+
+(reliability of the RV fit - potential for more planets? activity?)
+
+(M-R diagram)
+
+(prospects for further compositional analysis)
+
+(prospects for atmospheric characterization)
+
+\section{Conclusion}
+\label{s:conclusion}
+
 
 \acknowledgements
 We thank ...
 
 \software{
-%    \code{Astropy} \citep{astropy},
+    \code{Astropy} \citep{astropy},
     \code{exoplanet} \citep{exoplanet},
     \code{IPython} \citep{ipython},
     \code{matplotlib} \citep{matplotlib},
@@ -75,7 +133,7 @@ We thank ...
     \code{scipy} (\url{https://www.scipy.org/}),
 }
 
-% \facility{}
+\facility{TESS, HARPS}
 
 \bibliographystyle{aasjournal}
 \bibliography{ms}
