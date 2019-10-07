@@ -2,8 +2,13 @@
 
 \include{preamble}
 \newcommand{\hoststar}{\acronym{HIP}\ 96160\xspace}
+\newcommand{\plname}{\acronym{HIP}\ 96160b\xspace}
+\newcommand{\plmass}{$13.1 \pm 5.0\ \textrm{M}_{E}$\xspace}
+\newcommand{\plradius}{$3.41 \pm 0.01\ \textrm{R}_{E}$\xspace}
+\newcommand{\stmass}{$1.0 \pm x\ \textrm{M}_{\odot}$\xspace}
+\newcommand{\stradius}{$1.0 \pm x\ \textrm{R}_{\odot}$\xspace}
 
-\shorttitle{Working Title}
+\shorttitle{Warm Sub-Neptune Transiting a Solar Twin}
 \shortauthors{Bedell et al.}
 
 \setlength{\parindent}{1.4em} % trust in Hogg
@@ -12,7 +17,7 @@
 \graphicspath{ {figures/} }
 \DeclareGraphicsExtensions{.pdf,.eps,.png}
 
-\title{A warm sub-Neptune transiting a Solar twin in TESS}
+\title{A Warm Sub-Neptune Transiting a Solar Twin in TESS}
 
 \author[0000-0001-9907-7742]{Megan Bedell}
 \affiliation{\flatiron}
@@ -26,10 +31,10 @@
 \author{Jennifer Burt}
 \affiliation{\MIT}
 
-\author{Jhon Yana Galarza}
+\author{Jorge Melendez}
 \affiliation{\USP}
 
-\author{Jorge Melendez}
+\author{Jhon Yana Galarza}
 \affiliation{\USP}
 
 \author{Lorenzo Spina}
@@ -48,22 +53,31 @@
 
 
 \begin{abstract}\noindent
+We present the discovery of \plname, a sub-Neptune planet transiting a nearby solar twin star. 
+The host star has been observed extensively as part of a radial velocity (\RV) campaign targeting solar twins with \HARPS. 
+From these data, we find a planetary minimum mass of \plmass. 
+We also measure a radius of \plradius from \TESS photometry. 
+Taken together, the resulting planetary bulk density of \pldensity implies that an extended atmosphere is present, making this system an excellent candidate for transmission spectroscopic follow-up. 
+The extreme similarity between \hoststar and the Sun means that both the absolute planetary mass and radius and the bulk composition of the \hoststar system can be measured to unusually high precision. 
+\todo{We use the composition of the host star to place constraints on the planet's potential properties and show that it is likely to be... ??}
+
 % Precise characterization of exoplanet host stars is critical to our understanding of their properties. 
 % However, stellar spectroscopic characterization can be plagued with 
-% context
-% aims
-% methods
-% results
 \end{abstract}
 
-\keywords{
-}
 
 \section{Introduction}
 \label{s:intro}
 
 The Transiting Exoplanet Survey Satellite (\TESS) has detected over one thousand candidate exoplanets to date. 
 The majority of these newly discovered planets orbit bright, nearby stars, making them perfectly suited for follow-up observations, including mass measurements and atmospheric spectroscopy. 
+Unlike most \kepler systems, then, observational signal-to-noise is not always the dominant term in the error budget for the planet masses and other properties measured by ground-based follow-up campaigns.
+
+(importance of solar twins)
+
+In this work, we present the first planet detected by \TESS to orbit a true solar twin star. 
+\object[HIP96160]{\hoststar} is a \stmass, \stradius G2V star with a spectrum nearly identical to that of the Sun. 
+Previous studies have derived stellar properties and photospheric abundances for this \hoststar that are accurate to the $1-2 \%$ level.
 
 %All 
 
@@ -74,7 +88,8 @@ The majority of these newly discovered planets orbit bright, nearby stars, makin
 
 \subsection{Photometry}
 
-(about \TESS photometry)
+\hoststar was observed at 2-minute cadence as part of \TESS Sector 13. 
+
 
 \subsection{Spectra}
 
