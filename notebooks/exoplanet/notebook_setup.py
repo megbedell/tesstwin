@@ -25,6 +25,10 @@ import exoplanet
 
 print("exoplanet version: {0}".format(exoplanet.__version__))
 
+import scipy
+
+print("scipy version: {0}".format(scipy.__version__))
+
 import matplotlib.pyplot as plt
 
 plt.style.use("default")
@@ -38,3 +42,5 @@ plt.rcParams["mathtext.fontset"] = "custom"
 __version__ = "0.0.1"
 tic_id = 320004517
 base_dir = "output/{0}/tic/{1}/".format(__version__, tic_id)
+
+plot_dir = '../../paper/figures/'
