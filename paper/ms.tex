@@ -1,6 +1,7 @@
 \documentclass[modern]{aastex62}
 
 \include{preamble}
+\graphicspath{ {./figures/} }
 \newcommand{\hoststar}{\acronym{HIP}\ 96160\xspace}
 \newcommand{\plname}{\acronym{HIP}\ 96160b\xspace}
 \newcommand{\plmass}{$13.1 \pm 5.0\ \textrm{M}_{E}$\xspace}
@@ -124,6 +125,13 @@ Previous studies have derived stellar properties and photospheric abundances for
 
 (results of planet-only fit)
 
+\begin{figure}
+    \centering
+    \includegraphics[width=\textwidth]{lightcurve.pdf}
+    \caption{Photometric lightcurve of \hoststar as observed by \TESS in Sector 13. The \TESS data were fit with a Gaussian Process model (top panel) as a means of detrending. A transit model was then fit (middle panel), leaving a featureless white-noise lightcurve in the residuals (bottom panel).}
+    \label{fig:lightcurve}
+\end{figure}
+
 \subsection{\RV Analysis}
 \label{s:analysis:rvs}
 
@@ -131,7 +139,21 @@ Previous studies have derived stellar properties and photospheric abundances for
 
 (what do logRHK, BIS, FWHM correlations look like \& their periodograms after removing this offset (\& maybe low-pass filtering??))
 
+\begin{figure}
+    \centering
+    \includegraphics[width=\textwidth]{periodograms.pdf}
+    \caption{Lomb-Scargle periodograms of the \HARPS \RV, BIS, FWHM, and \shk timeseries measurements. Horizontal lines indicate the 5\%, 1\%, and 0.1\% false alarm probability levels. Vertical red lines mark the period of the \TESS-detected planet. The \RV, BIS, and FWHM measurements used here have been corrected for the \HARPS upgrade offset.}
+    \label{fig:periodograms}
+\end{figure}
+
 (periodogram analysis of RVs (maybe after subtracting off activity trends))
+
+\begin{figure}
+    \centering
+    \includegraphics[width=\textwidth]{periodogram_resids1.pdf}
+    \caption{Lomb-Scargle periodogram of the \RV residuals after subtracting the best-fit no-planet model consisting of a quadratic trend, a linear correlation with FWHM, and an instrumental offset after the time of the \HARPS upgrade.}
+    \label{fig:periodogram_resids1}
+\end{figure}
 
 (adding a planet to the model)
 
