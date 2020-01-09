@@ -73,36 +73,57 @@ We discuss the role of this system as a benchmark comparison to our own Solar Sy
 \section{Introduction}
 \label{s:intro}
 
-The Transiting Exoplanet Survey Satellite (\TESS) has detected over one thousand candidate exoplanets to date. 
-The majority of these newly discovered planets orbit bright, nearby stars, making them perfectly suited for follow-up observations, including mass measurements and atmospheric spectroscopy. 
-Unlike most \kepler systems, then, observational signal-to-noise may not be the dominant term in the error budget for the planet masses and other properties measured by ground-based follow-up campaigns.
+The thousands of diverse exoplanets discovered by transit search missions like \TESS and \kepler are hosted by a similarly diverse set of stars. 
+Some of the best-known exoplanets orbit M dwarf host stars, including Trappist-1 \citep{} and GJ~1214 \citep{}. 
+These systems are an exciting opportunity because the transit signal of a habitable-zone terrestrial planet around an M dwarf is relatively easy to detect and may be followed up with transmission spectroscopy to probe the planet's atmosphere. 
+On the other hand, detailed constraints on the properties of the host star are limited in precision for M dwarfs. 
+Asteroseismically oscillating stars, evolved giants, eclipsing binaries, and other more exotic host stars can fill in some of these gaps, setting very accurate planet radii for their systems through precisely measured host star properties. 
+Finally, Sun-like stars (here defined as FGK main-sequence stars) make up a significant fraction of known planet hosts \todo{(give numbers)}. 
+These systems can be seen as an intriguing glimpse of alternate paths our own Solar system might have taken in its early formation, and they represent our best opportunity to discover a ``truly Earth-like'' exoplanet that exists under conditions as similar as possible to our own planet.
 
-(importance of solar twins)
+Solar twins are an important subset of Sun-like stars. 
+Typically defined by their extreme similarity to the Sun in fundamental spectroscopic properties (\teff within 100 K, \logg within 0.1 dex, and \feh within 0.1 dex of Solar values), these stars must by definition have such similar photospheric conditions to the Sun that their spectra can be directly compared. 
+The result of this line-by-line differential spectroscopic analysis is uniquely precise abundance measurements for the star and thereby for the star-planet system \citep[see e.g.][who achieve 0.01 dex or 2\% precision on abundance measurements for over 30 elements]{Bedell18, Spina18}. 
+Similarly precise measurements may be made of the star's age, mass, radius, and other fundamental properties by combining isochronal models with the pinpoint-accuracy spectroscopic measurements \citep{}. 
+It is worth emphasizing that these properties are measured with extreme precision (not necessarily accuracy) relative to the Sun, our most thoroughly characterized planet host. 
+Planetary systems around solar twin stars are therefore useful both as individual well-characterized planets but also as a prime sample for comparative studies delving into any subtle differences between stars that host planets of different types.
 
-In this work, we present the first planet detected by \TESS to orbit a true solar twin star. 
+Unfortunately, the sample of known planets around solar twins is very limited in number at present. 
+\todo{(give a rundown)}
+
+%The Transiting Exoplanet Survey Satellite (\TESS) has detected over one thousand candidate exoplanets to date. 
+%The majority of these newly discovered planets orbit bright, nearby stars, making them perfectly suited for follow-up observations, including mass measurements and atmospheric spectroscopy. 
+%Unlike most \kepler systems, then, observational signal-to-noise may not be the dominant term in the error budget for the planet masses and other properties measured by ground-based follow-up campaigns.
+
+
+In this work, we present the first planet detected by \TESS to orbit a solar twin star. 
 \object[HIP96160]{\hoststar} is a \stmass, \stradius G2V star with a spectrum nearly identical to that of the Sun. 
 Previous studies have derived stellar properties and photospheric abundances for this \hoststar that are accurate to the $1\text{--}2\%$ level.
 
-%All 
-
-%\hoststar has been studied extensively through a dedicated \RV planet search and spectroscopic abundance survey targeting solar twin stars. ...
+\hoststar has been studied extensively through a dedicated \RV planet search and spectroscopic abundance survey targeting solar twin stars with the High Accuracy Radial velocity Planet Searcher spectrograph \citep[\HARPS][]{mayor03}. 
+Its planet, however, was not confidently detected until \TESS transits became available. 
+In this work we analyze the \RVs both alone and jointly with \TESS transit data to constrain the mass of \plname. 
+Current constraints place \plname as a \plmass mini-Neptune. 
+We discuss insights into this system from host star characterization, prospects for further characterization via transmission spectroscopy, and lessons about the challenges inherent in \RV planet detection around Sun-like stars illustrated in this data set.
 
 \section{Data}
 \label{s:data}
 
 \subsection{Photometry}
+\label{s:data:tess}
 
 \hoststar was observed at 2-minute cadence for a duration of 27 days in \TESS's Sector 13 pointing. 
 We used the \texttt{PDCSAP\_FLUX} timeseries generated by the \TESS pipeline and available for download via the Mikulski Archive for Space Telescopes (\acronym{MAST}). 
-These data have been corrected for instrumental systematic effects using an adapted version of the \kepler Presearch Data Conditioning algorithm (\acronym{PDC}; \todo{Smith12, Stumpe12,14}). 
-To download the data and for some initial processing, we used the built-in routines of the \texttt{lightkurve} package \todo{(cite)}. 
+These data have been extracted using an aperture technique and corrected for instrumental systematic effects using an adapted version of the \kepler Presearch Data Conditioning algorithm (\acronym{PDC}; \todo{Smith12, Stumpe12,14}). 
+To download the data and for some additional initial processing, we used the built-in routines of the \texttt{lightkurve} package \todo{(cite)}. 
 This initial processing consisted of normalizing by dividing out the median flux and clipping any outliers above a limit of $+5\sigma$. 
 The resulting normalized lightcurve was used as input for the model described in Section \ref{s:analysis:photometry}.
 %(say some things about quality diagnostics)
 
 \subsection{Spectra}
+\label{s:data:rvs}
 
-\hoststar was observed 56 times by the High Accuracy Radial velocity Planet Searcher (\HARPS) between 2011 and 2019. 
+\hoststar was observed 56 times by \HARPS between 2011 and 2019. 
 The bulk of these observations were made as part of a dedicated blind planet search targeting solar twins (P.I. Mel\'endez). 
 All observations were carried out in high-accuracy mode with a spectral resolution R~$\sim$~115,000. 
 The median \SNR is 108 pix$^{-1}$ \todo{at 600 nm}. 
@@ -152,42 +173,86 @@ No additional sources were found within 30 arcseconds and 9 magnitudes of the pr
 \begin{figure}
     \centering
     \includegraphics[width=\textwidth]{lightcurve.pdf}
-    \caption{Photometric lightcurve of \hoststar as observed by \TESS in Sector 13. The \TESS data were fit with a Gaussian Process model (top panel) as a means of detrending. A transit model was then fit (middle panel), leaving a featureless white-noise lightcurve in the residuals (bottom panel).}
+    \caption{Photometric lightcurve of \hoststar as observed by \TESS in Sector 13. The \TESS data were fit with a Gaussian Process model (top panel) as a means of detrending. A transit model was simultaneously fit (middle panel), leaving a featureless white-noise lightcurve in the residuals (bottom panel).}
     \label{fig:lightcurve}
 \end{figure}
 
-\subsection{\RV Analysis}
+\subsection{\RV-Only Analysis}
 \label{s:analysis:rvs}
 
-The \RVs were first inspected for obvious periodic signals or correlations with known stellar activity indicators to inform our choice of model. 
-The \HARPS\ optical fibers were replaced as part of a major instrument upgrade in June 2015, leaving an effective offset between \RVs and other line profile-sensitive components measured before and after the upgrade \citep{Lovis15}. 
-For the initial inspection, we simply subtract off an offset of 0.01 fit by eye from the post-upgrade \BIS and \FWHM measurements. 
-Similarly, we subtract an offset of 15.4 \ms from the post-upgrade \RVs. This quantity was derived from the median behavior of a set of \RV-quiet solar twins \citep{Melendez17}.
+Although the orbital period and ephemerides of the planet candidate can be determined from the photometry, it can be informative to look for an independent signature of the planet's periodicity in the \RVs. 
+In this particular case, we might have expected a 17-day super-Earth-sized planet to be detectable in the existing \RV time series, so testing this hypothesis by attempting to blindly recover the planet is a useful exercise in understanding any biases that might be present in the existing data analysis framework for the Solar Twin Planet Search \RV survey.
 
-%\begin{figure}
-%    \centering
-%    \includegraphics[width=\textwidth]{periodograms.pdf}
-%    \caption{Lomb-Scargle periodograms of the \HARPS\ \RV, BIS, FWHM, and \shk timeseries measurements. Horizontal lines indicate the 5\%, 1\%, and 0.1\% false alarm probability levels. Vertical red lines mark the period of the \TESS-detected planet. The \RV, BIS, and FWHM measurements used here have been corrected for the \HARPS upgrade offset.}
-%    \label{fig:periodograms}
-%\end{figure}
+The first and simplest way to look for periodicity in the \RV data is with a Lomb-Scargle periodogram. 
+One instrumental effect must be accounted for here. 
+In June 2015, the \HARPS\ optical fibers were replaced as part of a major instrument upgrade, leaving an effective offset between \RVs and other line profile-sensitive components measured before and after the upgrade \citep{Lovis15}. 
+For this initial inspection, we simply subtract an offset of 15.4 \ms from the post-upgrade \RVs. 
+This quantity was derived from the median behavior of a set of \RV-quiet solar twins \citep{Melendez17}. 
+The Lomb-Scargle periodogram of the offset-corrected \RVs does not show an obvious planet signal; instead, a forest of peaks is present around the 20-30 day expected rotation period, with significant strength at long periods as well. 
+If stellar activity signals are present in the data, from surface features rotating across the star or from longer-term variations in the net convective blueshift suppression, they could complicate the periodogram in this way. 
+In particular, the phase incoherence of activity signals due to constantly-evolving surface features over the long duration of \RV observations will lead to messy structures around the rotation period and its harmonics, which unfortunately coincide with the region of period space we wish to search. 
+To deal with these issues, we require a slightly more advanced model than the pure sinusoid that is implicitly assumed in a Lomb-Scargle periodogram search.
 
-A Lomb-Scargle periodogram of the upgrade-corrected \RVs does not reveal an obvious excess of strength near the 17-day period of the \TESS planet (Figure \ref{fig:periodograms}). 
-The most significant peak is instead near \todo{30} days. 
-A similar peak dominates the \FWHM periodogram, suggesting that this signal may originate in stellar variability. 
-Indeed, a \todo{30}-day rotation period is reasonable for this solar twin of approximately solar age.
-\todo{(discuss \BIS, \shk)}
+A great many options exist for modeling stellar variability in \RVs, from autoregressive and Gaussian process (\GP) approaches to the use of simultaneous photometry (\todo{CITE}). 
+Here, a simple and fast-to-compute model is desired, so despite the detailed inaccuracies of this assumption we adopted a linear relationship between \RV and an auxiliary activity indicator. 
+We tested the correlation strength of \RVs against several activity indicators (\BIS, \FWHM, and \shk, as discussed in Section \ref{s:data:rvs}). 
+Because the \HARPS\ optical fiber upgrade affected the line spread function of the instrument, offsets are present in the \BIS and \FWHM measurements. 
+We dealt with these as in the \RVs by subtracting an offset of 0.01 fit by eye from the post-upgrade \BIS and \FWHM measurements. 
+The results indicate a significant linear correlation between \RV and \FWHM in the data, with a Pearson correlation coefficient of \todo{0.7} and a bootstrapped false alarm probability of \todo{0.001}. 
+Neither of the other activity indicators show strong correlations. 
+We therefore adopt a linear \RV-\FWHM relationship in our model. 
+We also add in a quadratic trend component to account for long-term changes in the \RVs due to either the evolving magnetic activity cycle or undetected long-period companions.
 
-As suggested by the above periodogram analysis, there is a significant linear correlation between \RV and \FWHM in the data, with a Pearson correlation coefficient of \todo{0.7} and a bootstrapped false alarm probability of \todo{0.001}. 
-Neither of the other activity indicators show similarly strong correlations. 
-For this reason, we include a linear dependence on \FWHM in the following models for the \RV signal.
+With this more advanced model, we constructed a \textit{log-likelihood periodogram}. 
+This approach is a simple and efficient way of searching frequency space while taking certain systematic noise sources into account, and follows the methodology behind the Systematics-Insensitive Periodogram introduced for \kepler transit searches by \citet{Angus2016}. 
+Specifically, in our application the model prediction is that for any time $t_n$ with corresponding \FWHM measurement $w_n$, the \RV $y_n$ is given by:
+\begin{equation}
+    y_n = a x_n^2 + b x_n + c_n + d w_n + K sin\Big(\frac{2\pi}{P} t_n\Big) + H cos\Big(\frac{2\pi}{P} t_n\Big) + \mathrm{noise},
+\end{equation}
+where $x_n$ is a normalized relative time:
+\begin{equation}
+    x_n = \frac{t_n - \langle t \rangle}{t_{max} - t_{min}},
+\end{equation}
+the baseline term $c_n$ is comprised of two possible values based on whether observation $n$ was taken before or after \HARPS upgrade time $t_{upgrade}$:
+\begin{equation}
+    c_n = ,
+\end{equation}
+and all other variables ($a, b, c_1, c_2, d, K, H, P$) are unknowns to be constrained from the data. 
+At any given value of the orbital period $P$, this model is entirely linear, so that the vector of predicted \RVs $\mathbf{y}$ can be calculated as a product of variable vector
+\begin{equation}
+    \theta = [a, b, c_1, c_2, d, K, H]^T
+\end{equation}
+and design matrix
+\begin{equation}
+    A_P = .
+\end{equation}
+At period $P$, then, the optimal parameters $\mathbf{\theta^*_P}$ can be analytically determined as the following:
+\begin{equation}
+    \mathbf{\theta^*_P} = .
+\end{equation}
+We step through a log-uniform grid of periods between 1 and 1000 days and determine the maximum likelihood for that period:
+\begin{equation}
+    logL^*_P = .
+\end{equation}
+The resulting log-likelihood periodogram shares the fundamental assumption of a circular orbit but is otherwise more robust to stellar activity and long-period trends than the Lomb-Scargle approach. 
+Due to the linearity of the model and the resulting ability to find the optimal parameters analytically, the likelihood may be maximized quickly and with a guarantee of convexity. 
+Therefore, while more advanced tools exist to incorporate Bayesian priors \citep{Olspert2018} or non-parametric correlated noise \citep{Feng2017} along with trends in the data, this method is relatively simple to implement, flexible, and fast.
 
-The rest of our analysis was carried out within the framework of \exoplanet, an open-source \python package built on \pymc and designed to perform efficient multi-parameter optimizations and Markov Chain Monte Carlo (\mcmc) samplings for Keplerian models \citep{exoplanet}. 
-We first fit a model consisting only of a second-order polynomial \RV trend and a linear correlation with \FWHM. 
-The free parameters for this model include coefficients of the polynomial and correlation terms, but also instrument upgrade offsets for both the \RVs 
+The log-likelihood periodogram does show a strong peak at 17 days (Figure \ref{fig:lnlikeperiodogram}). 
+While this does validate the presence of a sinusoidal, potentially Keplerian signal in the data, we note that this conclusion depends on the noise model adopted. 
+The 17-day peak is the highest in the log-likelihood periodogram, but a forest of other strong peaks remain; these may arise from noise that was not accounted for in our model or from additional planets in the system. 
 
-(adding a planet to the model)
+In brief, the above analysis shows that the \RV data do support the detection of a 17-day planet, but the signal is not sufficiently strong or robust to changes in the noise model to confidently claim detection on the grounds of \RVs alone.
 
-(evidence for additional periods?)
+
+
+\begin{figure}
+    \centering
+    \includegraphics[width=\textwidth]{periodograms.pdf}
+    \caption{Lomb-Scargle periodograms of the \HARPS\ \RV, BIS, FWHM, and \shk timeseries measurements. Horizontal lines indicate the 5\%, 1\%, and 0.1\% false alarm probability levels. Vertical red lines mark the period of the \TESS-detected planet. The \RV, BIS, and FWHM measurements used here have been corrected for the \HARPS upgrade offset.}
+    \label{fig:periodograms}
+\end{figure}
+
 
 \subsection{Joint Analysis}
 \label{s:analysis:joint}
@@ -195,7 +260,7 @@ The free parameters for this model include coefficients of the polynomial and co
 \begin{figure}
     \centering
     \includegraphics[width=\textwidth]{transits.pdf}
-    \caption{De-trended lightcurve data and best-fit model for the two transit events in \TESS.}
+    \caption{De-trended lightcurve data and best-fit model for the two transit events in \TESS. Arbitrary offsets on the vertical axis were given to the separate events for clarity.}
     \label{fig:transits}
 \end{figure}
 
@@ -228,7 +293,7 @@ The free parameters for this model include coefficients of the polynomial and co
 
 
 \acknowledgements
-We thank ... 
+We thank Trevor David, ... for useful discussions.
 This work is based on observations collected at the European Southern Observatory under ESO programmes 188.C-0265 and 0100.D-0444. 
 This work has made use of data from the European Space Agency (ESA) mission
 {\it Gaia} (\url{https://www.cosmos.esa.int/gaia}), processed by the {\it Gaia}
