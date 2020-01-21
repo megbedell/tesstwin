@@ -82,9 +82,9 @@ Finally, Sun-like stars (here defined as FGK main-sequence stars) make up a sign
 These systems can be seen as an intriguing glimpse of alternate paths our own Solar system might have taken in its early formation, and they represent our best opportunity to discover a ``truly Earth-like'' exoplanet that exists under conditions as similar as possible to our own planet.
 
 Solar twins are an important subset of Sun-like stars. 
-Typically defined by their extreme similarity to the Sun in fundamental spectroscopic properties (\teff within 100 K, \logg within 0.1 dex, and \feh within 0.1 dex of Solar values), these stars must by definition have such similar photospheric conditions to the Sun that their spectra can be directly compared. 
+Typically defined by their extreme similarity to the Sun in fundamental spectroscopic properties (\teff\ within 100 K, \logg\ within 0.1 dex, and \feh\ within 0.1 dex of Solar values), these stars must by definition have such similar photospheric conditions to the Sun that their spectra can be directly compared. 
 The result of this line-by-line differential spectroscopic analysis is uniquely precise abundance measurements for the star and thereby for the star-planet system \citep[see e.g.][who achieve 0.01 dex or 2\% precision on abundance measurements for over 30 elements]{Bedell18, Spina18}. 
-Similarly precise measurements may be made of the star's age, mass, radius, and other fundamental properties by combining isochronal models with the pinpoint-accuracy spectroscopic measurements \citep{}. 
+Similarly precise measurements may be made of the star's age, mass, radius, and other fundamental properties by combining isochronal models with the spectroscopic measurements \citep{}. 
 It is worth emphasizing that these properties are measured with extreme precision (not necessarily accuracy) relative to the Sun, our most thoroughly characterized planet host. 
 Planetary systems around solar twin stars are therefore useful both as individual well-characterized planets but also as a prime sample for comparative studies delving into any subtle differences between stars that host planets of different types.
 
@@ -144,7 +144,8 @@ We dropped one observation from the analysis because its \BIS and \FWHM measurem
 We queried Gaia Data Release 2 \citep{gaia} at the sky position and approximate magnitude of \hoststar. 
 The resulting cross-match, Gaia DR2 source ID 6641996571978861440, has an estimated parallax distance of \todo{zzz} from \citet{BailerJones}, consistent with the Hipparcos estimate. 
 Other \gaia information is given in Table \ref{tbl:star}. 
-No additional sources were found within 30 arcseconds and 9 magnitudes of the primary match, indicating that the \TESS photometric aperture for \hoststar is unlikely to be contaminated by any major background sources.
+No additional sources were found within 30 arcseconds and 9 magnitudes of the primary match.
+Combined with the lack of spectral binary features in the \HARPS data, this indicates that the \TESS photometric aperture for \hoststar is unlikely to be contaminated by any major background sources.
 
 \section{Analysis \& Results}
 \label{s:analysis}
@@ -211,11 +212,16 @@ Specifically, in our application the model prediction is that for any time $t_n$
 \end{equation}
 where $x_n$ is a normalized relative time:
 \begin{equation}
-    x_n = \frac{t_n - \langle t \rangle}{t_{max} - t_{min}},
+    x_n = \frac{t_n - \langle t \rangle}{\mathrm{max}(t) - \mathrm{min}(t)},
 \end{equation}
 the baseline term $c_n$ is comprised of two possible values based on whether observation $n$ was taken before or after \HARPS upgrade time $t_{upgrade}$:
 \begin{equation}
-    c_n = ,
+    c_n = \left\{
+        \begin{array}{ll}
+            c_1 & \quad t_n < t_{upgrade} \\
+            c_2 & \quad t_n \geq t_{upgrade}
+        \end{array}
+    \right,
 \end{equation}
 and all other variables ($a, b, c_1, c_2, d, K, H, P$) are unknowns to be constrained from the data. 
 At any given value of the orbital period $P$, this model is entirely linear, so that the vector of predicted \RVs $\mathbf{y}$ can be calculated as a product of variable vector
@@ -224,7 +230,12 @@ At any given value of the orbital period $P$, this model is entirely linear, so 
 \end{equation}
 and design matrix
 \begin{equation}
-    A_P = .
+    A_P = 
+    \begin{pmatrix}
+        x_0^2 & x_0 & c_0 & w_0 &  sin\Big(\frac{2\pi}{P} t_n\Big) &  cos\Big(\frac{2\pi}{P} t_n\Big)\\
+        \vdots & \vdots & \vdots\\
+        x_n^2 & x_n & c_n
+    \end{pmatrix}.
 \end{equation}
 At period $P$, then, the optimal parameters $\mathbf{\theta^*_P}$ can be analytically determined as the following:
 \begin{equation}
@@ -232,14 +243,14 @@ At period $P$, then, the optimal parameters $\mathbf{\theta^*_P}$ can be analyti
 \end{equation}
 We step through a log-uniform grid of periods between 1 and 1000 days and determine the maximum likelihood for that period:
 \begin{equation}
-    logL^*_P = .
+    log\mathcal{L}^*_P = .
 \end{equation}
 The resulting log-likelihood periodogram shares the fundamental assumption of a circular orbit but is otherwise more robust to stellar activity and long-period trends than the Lomb-Scargle approach. 
 Due to the linearity of the model and the resulting ability to find the optimal parameters analytically, the likelihood may be maximized quickly and with a guarantee of convexity. 
 Therefore, while more advanced tools exist to incorporate Bayesian priors \citep{Olspert2018} or non-parametric correlated noise \citep{Feng2017} along with trends in the data, this method is relatively simple to implement, flexible, and fast.
 
 The log-likelihood periodogram does show a strong peak at 17 days (Figure \ref{fig:lnlikeperiodogram}). 
-While this does validate the presence of a sinusoidal, potentially Keplerian signal in the data, we note that this conclusion depends on the noise model adopted. 
+While this supports the presence of a sinusoidal, potentially Keplerian signal in the data, we note that this conclusion depends on the noise model adopted. 
 The 17-day peak is the highest in the log-likelihood periodogram, but a forest of other strong peaks remain; these may arise from noise that was not accounted for in our model or from additional planets in the system. 
 
 In brief, the above analysis shows that the \RV data do support the detection of a 17-day planet, but the signal is not sufficiently strong or robust to changes in the noise model to confidently claim detection on the grounds of \RVs alone.
