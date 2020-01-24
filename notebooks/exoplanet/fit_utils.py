@@ -31,12 +31,12 @@ def build_model(x, y, yerr, x_rv, y_rv, yerr_rv, pug, pug_pred, t_rv, texp,
 
         log_period = pm.Normal("log_period", mu=np.log(periods), sd=10.0, shape=n_pl)
         period = pm.Deterministic("period", tt.exp(log_period))
-        t0 = pm.Uniform("t0", lower=t0s-1.0, upper=t0s+1.0, shape=n_pl)
+        t0 = pm.Uniform("t0", lower=t0s[0]-1.0, upper=t0s[0]+1.0)
         
         log_ror = pm.Uniform("log_ror", lower=np.log(0.01), upper=np.log(0.1),
-                             testval=0.5*np.log(1e-3*depths), shape=n_pl)
+                             testval=0.5*np.log(1e-3*depths[0]))
         ror = pm.Deterministic("ror", tt.exp(log_ror))
-        b_hat = xo.distributions.UnitUniform("b_hat", shape=n_pl)
+        b_hat = xo.distributions.UnitUniform("b_hat")
         b = pm.Deterministic("b", b_hat * (1 + ror))
         r_pl = pm.Deterministic("r_pl", ror * r_star)
         
@@ -74,20 +74,24 @@ def build_model(x, y, yerr, x_rv, y_rv, yerr_rv, pug, pug_pred, t_rv, texp,
             trend_fwhm = pm.Normal("trend_fwhm", mu=0, sd=10.0**(1-np.arange(2))[::-1], shape=2)
             
         # Orbit model
-        orbit = xo.orbits.KeplerianOrbit(
-            r_star=r_star, m_star=m_star,
-            period=period, t0=t0, b=b,
+        orbit_rvs = xo.orbits.KeplerianOrbit(
+            period=period,
             ecc=ecc, omega=omega,
             m_planet=m_pl, 
             m_planet_units=msini.unit)
+        orbit_transit = xo.orbits.KeplerianOrbit(
+            r_star=r_star,
+            m_star=m_star,
+            period=period[0], t0=t0, b=b,
+            ecc=ecc, omega=omega)
         
         # Save some helpful things for later
-        semimajor = orbit.a
+        semimajor = orbit_rvs.a
         pm.Deterministic('a', semimajor)
 
         # Compute the model light curve using starry
         model.light_curves = xo.LimbDarkLightCurve(u_star).get_light_curve(
-            orbit=orbit, r=r_pl, t=x[mask], texp=texp)*1e3
+            orbit=orbit_transit, r=r_pl, t=x[mask], texp=texp)*1e3
         model.light_curve = pm.math.sum(model.light_curves, axis=-1) + mean_flux
 
         # GP model for the light curve
@@ -98,7 +102,7 @@ def build_model(x, y, yerr, x_rv, y_rv, yerr_rv, pug, pug_pred, t_rv, texp,
 
         # Set up the RV model and save it as a deterministic
         # for plotting purposes later
-        vrad = orbit.get_radial_velocity(x_rv)
+        vrad = orbit_rvs.get_radial_velocity(x_rv)
         pm.Deterministic("vrad", vrad)
         
         # Define the background RV model
@@ -124,7 +128,7 @@ def build_model(x, y, yerr, x_rv, y_rv, yerr_rv, pug, pug_pred, t_rv, texp,
         pm.Normal("obs_pre", mu=rv_model[~pug], sd=err_pre, observed=y_rv[~pug])
         pm.Normal("obs_post", mu=rv_model[pug], sd=err_pug, observed=y_rv[pug])
         
-        vrad_pred = orbit.get_radial_velocity(t_rv)
+        vrad_pred = orbit_rvs.get_radial_velocity(t_rv)
         pm.Deterministic("vrad_pred", vrad_pred)
         A_pred = np.vander(t_rv, rv_trend_order)        
         bkg_pred = pm.Deterministic("bkg_pred", pug_pred*offset_pug + tt.dot(A_pred, trend))
