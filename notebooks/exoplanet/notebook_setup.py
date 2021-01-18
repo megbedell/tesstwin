@@ -13,17 +13,22 @@ import logging
 logger = logging.getLogger("theano.gof.compilelock")
 logger.setLevel(logging.ERROR)
 
+import numpy as np
+import pandas as pd
+import astropy.units as u
+
 import theano
+import theano.tensor as tt
 
 print("theano version: {0}".format(theano.__version__))
 
-import pymc3
+import pymc3 as pm
 
-print("pymc3 version: {0}".format(pymc3.__version__))
+print("pymc3 version: {0}".format(pm.__version__))
 
-import exoplanet
+import exoplanet as xo
 
-print("exoplanet version: {0}".format(exoplanet.__version__))
+print("exoplanet version: {0}".format(xo.__version__))
 
 import scipy
 
@@ -38,6 +43,12 @@ plt.rcParams["font.size"] = 16
 plt.rcParams["font.family"] = "sans-serif"
 #plt.rcParams["font.sans-serif"] = ["Liberation Sans"]
 plt.rcParams["mathtext.fontset"] = "custom"
+plt.rcParams['xtick.major.size'] = 8
+plt.rcParams['xtick.major.width'] = 1
+plt.rcParams['xtick.minor.size'] = 4
+plt.rcParams['xtick.minor.width'] = 0.5
+plt.rcParams['ytick.major.size'] = 8
+plt.rcParams['ytick.major.width'] = 1
 
 __version__ = "0.0.1"
 tic_id = 320004517
